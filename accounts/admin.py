@@ -6,8 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-        ("Role",  {"fields":("role","image" )}),
+        ("Role",  {"fields":("role","image", "phone", "address" )}),
     )
-    
     list_display = ('username','role')
     list_filter = ("role", "is_staff")
