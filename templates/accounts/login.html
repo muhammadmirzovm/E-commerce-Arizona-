@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+Kirish
+{% endblock title %}
+{% block content %}
+<div class="container border border-dark rounded my-5 col-5 p-4 rounded-5 ">
+    <h1 class="text-center">Kirish</h1>
+    <form method="post">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <div class="text-center">
+        <button class="btn btn-outline-dark my-2 rounded-pill">Saqlash</button>
+        <p>Akkauntingiz yo'qmi ? <a class="text-dark" href="{% url 'signup' %}">Ro'yxatdan o'tish</a></p>
+    </div>
+</form>
+</div>
+{% endblock content %}

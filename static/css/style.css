@@ -1,0 +1,15 @@
+.btn-outline-dark{
+    background-color: white;
+    transition: .3s;
+}
+
+.btn-outline-dark:hover{
+    background-color: #212529;
+}
+form li , form .form-text{
+    display: none;
+}
+form input, form select{
+    border-radius: 50rem !important;
+    border-color:  #212529 !important;
+}

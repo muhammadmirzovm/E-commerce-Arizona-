@@ -1,0 +1,40 @@
+{% load static %}
+<nav class="navbar navbar-expand-md bottom border-bottom border-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}"><img src="{%static 'images/SHOP.CO.svg' %}" alt=""></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Link</a>
+        </li>
+
+      </ul>
+      <form class="d-flex me-1 mb-2 mb-md-0" role="search">
+        <input class="form-control me-2 rounded-pill border-dark" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-dark rounded-pill" type="submit"><i class="bi bi-search"></i></button>
+      </form>
+      {% if user.is_authenticated and user.image %}
+        <a class="border rounded-circle border-dark me-1 btn-outline-dark" href="{% url 'profile'  %}"><img class="rounded rounded-circle"  style="width:35px; height:35px" src="{{ user.image.url }}" alt=""></a>
+      {% elif user.is_authenticated and not user.image %}
+        <a href="{% url 'profile'%}"><span class="btn btn-outline-dark rounded-circle me-1">{{ user.username|slice:1|title }}</span></a>
+       {% else %} 
+       <a href="{% url 'login' %}"><i class="bi bi-person-circle fs-1 text-dark"></i></a>
+       {% endif %}
+      {% if user.is_authenticated %}
+      <form method="post" action="{% url 'logout' %}" class="r">
+        {% csrf_token %}
+        <button class="btn btn-dark rounded-pill"><i class="bi bi-box-arrow-right"></i></button>
+      </form>
+      {%else%}
+      <a class="btn btn-dark rounded-pill mx-1" href="{% url 'login' %}">Login</a>
+      <a class="btn border border-dark rounded-pill btn-outline-dark" href="{% url 'signup' %}">Signup</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
