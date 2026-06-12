@@ -7,7 +7,7 @@ class SignUpForm(UserCreationForm):
     role = forms.ChoiceField(choices=User.Role.choices)
     class Meta:
         model = User
-        fields = ('first_name', 'last_name' ,'username', 'email', 'role', 'password1', 'password2')
+        fields = ('first_name', 'last_name' ,'username', 'email', 'role', 'password1', 'password2', 'phone', 'address')
         
         
 class ProfileForm(forms.ModelForm):

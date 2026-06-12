@@ -14,7 +14,9 @@ Profile -> {{ request.user.username }}
                 </div>
             {% endif %}
             <div>
-                <h5 class="mb-0 fw-semibold">{{ user.first_name }} {{ user.last_name }}</h5>
+
+                    <h5 class="mb-0 fw-semibold">{{ user.first_name }} {{ user.last_name }}</h5> <a class=" text-decoration-none btn btn-dark btn-sm" href="{% url 'profile_edit'  %}">Edit <i class="bi bi-pencil"></i></a>
+
                 <span class="text-secondary small">@{{ user.username }}</span>
             </div>
         </div>
