@@ -63,4 +63,5 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     def form_invalid(self, form):
         messages.error(self.request, "Forma saqlashda xatolik bor!")
         return super().form_valid(form)
+
     
