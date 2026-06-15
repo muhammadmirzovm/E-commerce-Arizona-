@@ -7,7 +7,7 @@ from .forms import SignUpForm
 from django.views.generic import CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ProfileForm
-
+from .models import User
 class SignUpView(CreateView):
     form_class = SignUpForm
     template_name = "accounts/signup.html"
@@ -29,7 +29,7 @@ class CustomLoginView(LoginView):
         return super().form_valid(form)
     
     def form_invalid(self, form):
-        messages.error(self.request, "Tizimga kirishda xatolik yuz berdi !")
+        messages.error(self.request, "Tizimga kirishda xatolik yuz berdi ! ")
         return super().form_invalid(form)
     
 class CustomLogoutView(LogoutView):
@@ -38,9 +38,7 @@ class CustomLogoutView(LogoutView):
         messages.info(request, "Tizimdan chiqdingiz !")
         return super().dispatch(request, *args, **kwargs)
 
-from django.views.generic import CreateView, DetailView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import User
+
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     model = User
     template_name = "accounts/profile_detail.html"
