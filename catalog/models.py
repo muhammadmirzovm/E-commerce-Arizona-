@@ -35,7 +35,7 @@ class Product(models.Model):
    name = models.CharField(max_length=200)
    slug = models.SlugField(max_length=220, unique=True)
 
-   price = models.DecimalField(max_digits=12, decimal_places=2)
+   price = models.DecimalField(max_digits=12, decimal_places=2, help_text="$")
    short_description = models.CharField(max_length=255, blank=True)
    description = models.TextField(blank=True)
 
@@ -52,4 +52,18 @@ class Product(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+class ProductImage(models.Model):
+   product = models.ForeignKey(
+       Product,
+       on_delete=models.CASCADE,
+       related_name="images"
+   )
+   image = models.ImageField(upload_to="products/gallery/")
+   alt_text = models.CharField(max_length=150, blank=True)
+
+   def __str__(self):
+       return f"Image for {self.product.name}"
+
+
 
