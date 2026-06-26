@@ -3,6 +3,19 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
+<style>
+  .thumb {
+    width: 72px;
+    height: 72px;
+    cursor: pointer;
+    opacity: .6;
+    transition: opacity .15s ease, transform .15s ease;
+  }
+  .thumb:hover { opacity: 1; transform: translateY(-2px); }
+  .thumb.is-active { opacity: 1; }
+  #mainImage { transition: opacity .2s ease; }
+</style>
+
 <div class="container py-4">
 
   <a href="{% url 'product_list' %}" class="small text-muted text-decoration-none d-inline-flex align-items-center gap-1 mb-4">
@@ -14,7 +27,7 @@
     <div class="col-md-5">
       <div class="rounded-3 border overflow-hidden">
         {% if product.main_image %}
-          <img src="{{ product.main_image.url }}" alt="{{ product.name }}"
+          <img id="mainImage" src="{{ product.main_image.url }}" alt="{{ product.name }}"
                class="img-fluid w-100 object-fit-cover" style="aspect-ratio:1/1">
         {% else %}
           <div class="bg-light d-flex align-items-center justify-content-center text-muted small"
@@ -22,12 +35,17 @@
         {% endif %}
       </div>
 
-      {% if product.images.all %}
+      {% if product.main_image or product.images.all %}
       <div class="d-flex gap-2 mt-3 flex-wrap">
+        {% if product.main_image %}
+          <img src="{{ product.main_image.url }}" alt="{{ product.name }}"
+               class="thumb is-active border border-dark border-2 rounded-2 object-fit-cover"
+               onclick="swapImage(this)">
+        {% endif %}
         {% for img in product.images.all %}
           <img src="{{ img.image.url }}" alt="{{ img.alt_text }}"
-               class="border rounded-2 object-fit-cover"
-               style="width:72px; height:72px;">
+               class="thumb border rounded-2 object-fit-cover"
+               onclick="swapImage(this)">
         {% endfor %}
       </div>
       {% endif %}
@@ -71,11 +89,45 @@
         </div>
       </div>
 
-      <button class="btn btn-dark btn-sm px-4 py-2 disabled" disabled>
-        Add to cart
-      </button>
+     {% if request.user.is_authenticated %}
+  <form method="post" action="{% url 'cart_add' product.id %}" class="d-flex gap-2">
+    {% csrf_token %}
+    <input type="number" name="qty" value="1" min="1" class="form-control" style="max-width:120px;">
+    <button class="btn btn-success">Add to cart</button>
+    <a class="btn btn-outline-dark" href="{% url 'cart_detail' %}">View cart</a>
+  </form>
+  {% else %}
+ <div class="alert alert-light border">
+   Savatchaga qo‘shish uchun login qiling.
+   <a class="btn btn-dark btn-sm ms-2"
+      href="{% url 'login' %}?next={% url 'product_detail' product.slug %}">
+     Login
+   </a>
+ </div>
+{% endif %}
+
 
     </div>
   </div>
 </div>
+
+<script>
+  function swapImage(el) {
+    const main = document.getElementById('mainImage');
+    if (!main) return;
+
+    // katta rasmni almashtirish (yengil fade effekti bilan)
+    main.style.opacity = 0;
+    setTimeout(() => {
+      main.src = el.src;
+      main.style.opacity = 1;
+    }, 150);
+
+    // active holatini yangilash
+    document.querySelectorAll('.thumb').forEach(t => {
+      t.classList.remove('is-active', 'border-dark', 'border-2');
+    });
+    el.classList.add('is-active', 'border-dark', 'border-2');
+  }
+</script>
 {% endblock %}

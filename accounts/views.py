@@ -8,10 +8,13 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ProfileForm
 from .models import User
+
+
+
 class SignUpView(CreateView):
     form_class = SignUpForm
     template_name = "accounts/signup.html"
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("product_list")
     def form_valid(self, form):
         response = super().form_valid(form)
         login(self.request, self.object)
@@ -33,7 +36,7 @@ class CustomLoginView(LoginView):
         return super().form_invalid(form)
     
 class CustomLogoutView(LogoutView):
-    next_page = 'home'
+    next_page = 'product_list'
     def dispatch(self, request, *args, **kwargs):
         messages.info(request, "Tizimdan chiqdingiz !")
         return super().dispatch(request, *args, **kwargs)

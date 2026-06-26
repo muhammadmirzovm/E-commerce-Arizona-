@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'catalog',
+    'cart'
 ]
 
 MIDDLEWARE = [
@@ -125,8 +126,8 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 AUTH_USER_MODEL = "accounts.User"
 
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'product_list'
+LOGOUT_REDIRECT_URL = 'product_list'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

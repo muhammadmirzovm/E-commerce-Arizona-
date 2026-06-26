@@ -14,6 +14,6 @@ class User(AbstractUser):
     phone = models.CharField(max_length=15, help_text="+998919203550")
     address = models.CharField(max_length=250)
     
-    
     def __str__(self):
         return f'{self.username} --> {self.role}'
+    
