@@ -1,26 +1,52 @@
 {% extends "base.html" %}
 {% block title %}Order #{{ order.id }}{% endblock %}
 {% block content %}
-<h1 class="h4 mb-3">Order #{{ order.id }}</h1>
-<div class="row g-3">
- <div class="col-lg-6">
-   <div class="card shadow-sm border rounded-4">
-     <div class="card-body">
-       <div><strong>Status:</strong> {{ order.status }}</div>
-       <div><strong>Name:</strong> {{ order.full_name }}</div>
-       <div><strong>Phone:</strong> {{ order.phone }}</div>
-       <div><strong>Address:</strong> {{ order.address }}</div>
-       <div><strong>Delivery:</strong> {{ order.delivery_method }}</div>
-       {% if order.note %}<div><strong>Note:</strong> {{ order.note }}</div>{% endif %}</div></div></div>
- <div class="col-lg-6">
-   <div class="card shadow-sm border rounded-4">
-     <div class="card-body">
-       <h2 class="h6 mb-3">Items</h2>
-       {% for item in order.items.all %}
-         <div class="d-flex justify-content-between"><div>
-             <div class="fw-semibold">{{ item.product.name }}</div>
-             <div class="text-muted small">Qty: {{ item.qty }} • Seller: {{ item.seller.username }}</div></div>
-           <div class="fw-semibold">{{ item.unit_price }}</div></div><hr>
-       {% endfor %}
-     </div></div> </div></div>
+<div class="container py-5" style="max-width: 760px;">
+
+  <div class="mb-4">
+    <a href="{% url 'my_orders' %}" class="link-secondary text-decoration-none small">← Back to my orders</a>
+    <h1 class="h4 fw-semibold mt-2 mb-0">Order #{{ order.id }}</h1>
+    <p class="text-secondary small mb-0">{{ order.created_at }}</p>
+  </div>
+
+  <div class="border rounded-3 p-4 mb-3">
+    <h2 class="h6 text-uppercase text-secondary mb-3" style="letter-spacing:.04em; font-size:.72rem;">Delivery</h2>
+    <dl class="row mb-0 small">
+      <dt class="col-4 col-sm-3 fw-normal text-secondary py-1">Name</dt>
+      <dd class="col-8 col-sm-9 py-1 mb-0">{{ order.full_name }}</dd>
+
+      <dt class="col-4 col-sm-3 fw-normal text-secondary py-1">Phone</dt>
+      <dd class="col-8 col-sm-9 py-1 mb-0">{{ order.phone }}</dd>
+
+      <dt class="col-4 col-sm-3 fw-normal text-secondary py-1">Address</dt>
+      <dd class="col-8 col-sm-9 py-1 mb-0">{{ order.address }}</dd>
+
+      <dt class="col-4 col-sm-3 fw-normal text-secondary py-1">Delivery</dt>
+      <dd class="col-8 col-sm-9 py-1 mb-0">{{ order.delivery_method }}</dd>
+
+      {% if order.note %}
+      <dt class="col-4 col-sm-3 fw-normal text-secondary py-1">Note</dt>
+      <dd class="col-8 col-sm-9 py-1 mb-0">{{ order.note }}</dd>
+      {% endif %}
+    </dl>
+  </div>
+
+  <div class="border rounded-3 p-4">
+    <h2 class="h6 text-uppercase text-secondary mb-3" style="letter-spacing:.04em; font-size:.72rem;">Items</h2>
+    {% for item in order.items.all %}
+      <div class="d-flex justify-content-between align-items-start py-3
+                  {% if not forloop.last %}border-bottom{% endif %}">
+        <div>
+          <div class="fw-medium">{{ item.product.name }}</div>
+          <div class="text-secondary small mt-1">
+            Qty: {{ item.qty }} · Seller: {{ item.seller.username }}
+            <span class="badge rounded-pill fw-normal text-secondary border ms-1">{{ item.get_status_display }}</span>
+          </div>
+        </div>
+        <div class="fw-medium text-nowrap ms-3">{{ item.unit_price }}</div>
+      </div>
+    {% endfor %}
+  </div>
+
+</div>
 {% endblock %}

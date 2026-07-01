@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Update status — Order #{{ object.id }}{% endblock %}
+{% block content %}
+<div class="container py-5" style="max-width: 480px;">
+
+  <div class="mb-4">
+    <a href="{% url 'seller_order_items' %}" class="link-secondary text-decoration-none small">← Back to orders</a>
+    <h1 class="h4 fw-semibold mt-2 mb-1">Update status</h1>
+    <p class="text-secondary small mb-0">Order #{{ object.id }} · {{ object.product }}</p>
+  </div>
+
+  <div class="border rounded-3 p-4">
+    <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <div class="d-flex gap-2 mt-3">
+        <button class="btn btn-dark btn-sm px-4">Save</button>
+        <a href="{% url 'seller_order_items' %}" class="btn btn-link btn-sm text-secondary text-decoration-none">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+</div>
+{% endblock %}

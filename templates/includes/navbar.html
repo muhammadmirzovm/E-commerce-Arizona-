@@ -18,6 +18,16 @@ My Products
 {% endif %}
 
         </li>
+        {% if user.role == 'SELLER' %}
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'seller_order_items' %}">Order items</a>
+        </li>
+        {% endif %}
+        {% if user.role == 'BUYER' %}
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'my_orders' %}">My Orders</a>
+        </li>
+        {% endif %}
 
       </ul>
       <form class="d-flex me-1 mb-2 mb-md-0" role="search">

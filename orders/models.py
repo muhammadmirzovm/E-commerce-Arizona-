@@ -4,16 +4,7 @@ from decimal import Decimal
 from catalog.models import Product
 
 class Order(models.Model):
-   STATUS_NEW = "new"  # yangi buyurtma
-   STATUS_PROCESSING = "processing"  # tayyorlanmoqda
-   STATUS_DELIVERED = "delivered"  # yetkazildi
-   STATUS_CANCELED = "canceled"  # bekor qilindi
-   STATUS_CHOICES = [
-       (STATUS_NEW, "New"),
-       (STATUS_PROCESSING, "Processing"),
-       (STATUS_DELIVERED, "Delivered"),
-       (STATUS_CANCELED, "Canceled"),
-   ]
+   
    user = models.ForeignKey(  # buyurtma egasi (xaridor)
        settings.AUTH_USER_MODEL,
        on_delete=models.CASCADE,
@@ -24,13 +15,24 @@ class Order(models.Model):
    address = models.TextField()  # manzil (sodda variant)
    delivery_method = models.CharField(max_length=50, default="standard")  # yetkazish turi
    note = models.TextField(blank=True)  # izoh (ixtiyoriy)
-   status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_NEW)  # order holati
+   
    created_at = models.DateTimeField(auto_now_add=True)  # yaratilgan vaqt
    def __str__(self):
        return f"Order #{self.id} by {self.user.username}"  # admin’da chiroyli chiqishi uchun
 
 
 class OrderItem(models.Model):
+   STATUS_NEW = "new"  # yangi buyurtma
+   STATUS_PROCESSING = "processing"  # tayyorlanmoqda
+   STATUS_DELIVERED = "delivered"  # yetkazildi
+   STATUS_CANCELED = "canceled"  # bekor qilindi
+   STATUS_CHOICES = [
+       (STATUS_NEW, "New"),
+       (STATUS_PROCESSING, "Processing"),
+       (STATUS_DELIVERED, "Delivered"),
+       (STATUS_CANCELED, "Canceled"),
+   ]
+   status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_NEW)  # order holati
    order = models.ForeignKey(  # qaysi orderga tegishli
        Order, on_delete=models.CASCADE, related_name="items")
    product = models.ForeignKey(Product,
