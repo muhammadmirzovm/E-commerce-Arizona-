@@ -3,7 +3,8 @@
 {% block title %}Checkout{% endblock %}
 
 {% block content %}
-<h1 class="h4 mb-3">Checkout</h1>
+<div class="container bg-light border rounded p-4 bg-light my-4">
+  <h1 class="h4 mb-3">Checkout</h1>
 
 <div class="row g-3">
  <div class="col-lg-7">
@@ -39,4 +40,5 @@
          <span>Delivery</span><strong>{{ delivery }}</strong></div>
        <div class="d-flex justify-content-between">
          <span>Total</span><strong>{{ total }}</strong></div></div></div></div></div>
+</div>
 {% endblock %}
